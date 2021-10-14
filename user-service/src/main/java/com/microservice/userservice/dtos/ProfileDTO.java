@@ -34,4 +34,36 @@ public class ProfileDTO {
         this.description = profile.getDescription();
         this.authorities = profile.getAuthorities().stream().map(AuthorityDTO::new).collect(Collectors.toSet());
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Set<AuthorityDTO> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<AuthorityDTO> authorities) {
+        this.authorities = authorities;
+    }
 }

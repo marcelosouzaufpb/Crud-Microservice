@@ -1,26 +1,26 @@
 package com.microservice.authservice.controllers;
 
+import com.microservice.authservice.dtos.LoginDTO;
 import com.microservice.authservice.security.JwtUtil;
 import com.microservice.authservice.services.AuthService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.microservice.authservice.services.UserService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class AuthenticationController {
 
-    @Autowired
     private JwtUtil jwtTokenUtil;
 
     private final AuthService authService;
 
-    public AuthenticationController(AuthService authService) {
+    public AuthenticationController(JwtUtil jwtTokenUtil, AuthService authService) {
         this.authService = authService;
+        this.jwtTokenUtil = jwtTokenUtil;
     }
 
     @PostMapping(value = "/auth/authenticate")
-    public ResponseEntity<String> register() {
-        return ResponseEntity.ok(authService.register());
+    public ResponseEntity<String> register(@RequestBody LoginDTO loginDTO) {
+        return ResponseEntity.ok(this.authService.register(loginDTO));
     }
 }

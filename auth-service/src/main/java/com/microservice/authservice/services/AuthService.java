@@ -1,5 +1,6 @@
 package com.microservice.authservice.services;
 
+import com.microservice.authservice.dtos.LoginDTO;
 import com.microservice.authservice.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,8 +15,8 @@ public class AuthService {
         this.jwt = jwt;
     }
 
-    public String register() {
-        return "ola";
+    public String register(LoginDTO loginDTO) {
+        return this.jwt.generateToken(loginDTO);
     }
 
 }

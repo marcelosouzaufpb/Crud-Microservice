@@ -1,5 +1,12 @@
 package com.microservice.authservice.security;
 
+import com.microservice.authservice.dtos.LoginDTO;
+import com.microservice.authservice.dtos.UserDTO;
+import com.microservice.authservice.services.UserService;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.impl.DefaultClaims;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -15,8 +22,23 @@ public class JwtUtil implements Serializable {
 
     @Value("${jwt.token.validity}")
     private String expirationTime;
-//
-//    public String generateToken(Authentication authentication, User user) {
+
+    private Claims claims = new DefaultClaims();
+
+    @Autowired
+    private UserService userService;
+
+    public Claims getAllClaimsFromToken(final String token) {
+        try {
+            claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return claims;
+    }
+
+    public String generateToken(LoginDTO loginDTO) {
+           UserDTO userDTO = userService.test();
 //        final String authorities = authentication.getAuthorities().stream()
 //                .map(GrantedAuthority::getAuthority)
 //                .collect(Collectors.joining(","));
@@ -31,5 +53,6 @@ public class JwtUtil implements Serializable {
 //                .claim(USER_NAME, user.getName())
 //                .claim(IS_FIRST_LOGIN, new BCryptPasswordEncoder().matches(user.getEmail(), user.getPassword()))
 //                .compact();
-//    }
+        return "ola";
+    }
 }
