@@ -12,20 +12,19 @@ import org.springframework.context.annotation.Configuration;
 @EnableHystrix
 public class GatewayConfig {
 
-    @Autowired
-    private JwtAuthenticationFilter filter;
+	@Autowired
+	private JwtAuthenticationFilter filter;
 
-    @Bean
-    public RouteLocator routes(RouteLocatorBuilder builder) {
-        return builder.routes()
-                .route("auth", r -> r.path("/auth/**")
-                        .filters(f -> f.filter(filter))
-                        .uri("lb://auth"))
-
-                .route("alert", r -> r.path("/alert/**")
-                        .filters(f -> f.filter(filter))
-                        .uri("lb://alert"))
-                .build();
-    }
+	@Bean
+	public RouteLocator routes(RouteLocatorBuilder builder) {
+		return builder.routes()
+				.route("auth", r -> r.path("/auth/**")
+						.filters(f -> f.filter(filter))
+						.uri("lb://auth"))
+				.route("user-service", r -> r.path("/users/**")
+						.filters(f -> f.filter(filter))
+						.uri("lb://user-service"))
+				.build();
+	}
 
 }
