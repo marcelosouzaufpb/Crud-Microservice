@@ -16,7 +16,9 @@ public class AuthService {
     }
 
     public String register(LoginDTO loginDTO) {
-        return this.jwt.generateToken(loginDTO);
+        String token = this.jwt.generateToken(loginDTO);
+//        jwt.getAllClaimsFromToken(token);
+        return token;
     }
 
 }

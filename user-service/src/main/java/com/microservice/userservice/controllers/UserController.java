@@ -23,8 +23,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.microservice.userservice.utils.UrlConstants.PARAMS_ID;
-import static com.microservice.userservice.utils.UrlConstants.USER_URL;
+import static com.microservice.userservice.utils.UrlConstants.*;
 
 @RestController
 @AllArgsConstructor
@@ -48,13 +47,20 @@ public class UserController {
 
     @GetMapping(PARAMS_ID)
     public ResponseEntity<UserDTO> findById(@Valid @NotNull @PathVariable Long id) {
-        return ResponseEntity.ok(service.findById(id));
+//        return ResponseEntity.ok(service.findById(id));
+        Authority authority = new Authority(new AuthorityDTO(1L, "admin", "admin"));
+        Set<Authority> authorities = new HashSet<Authority>();
+        authorities.add(authority);
+        Profile profile = new Profile(new ProfileDTO(1L, "admin", "admin", authorities.stream()
+                .map(AuthorityDTO::new).collect(Collectors.toSet())));
+        return ResponseEntity.ok(new UserDTO(1L, "teste@gmail.com", "teste", new ProfileDTO(profile)));
+
     }
 
-    @GetMapping("/teste")
-    public ResponseEntity<UserDTO> test() {
-        AuthorityDTO authorityDTO = new AuthorityDTO(1L, "admin", "admin");
-        Authority authority = new Authority(authorityDTO);
+    @GetMapping(PARAMS_EMAIL)
+    public ResponseEntity<UserDTO> findByEmail(@Valid @NotNull @PathVariable String email) {
+//        return ResponseEntity.ok(this.service.getUserByEmail(email));
+        Authority authority = new Authority(new AuthorityDTO(1L, "admin", "admin"));
         Set<Authority> authorities = new HashSet<Authority>();
         authorities.add(authority);
         Profile profile = new Profile(new ProfileDTO(1L, "admin", "admin", authorities.stream()

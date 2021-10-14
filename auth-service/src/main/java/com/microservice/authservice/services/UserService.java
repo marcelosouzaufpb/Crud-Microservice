@@ -15,8 +15,13 @@ public class UserService {
         this.userProxy = userProxy;
     }
 
-    public UserDTO test() {
-        return this.userProxy.test().getBody();
+    public UserDTO getUserByEmail(String email) {
+        return this.userProxy.findByEmail(email).getBody();
     }
+
+    public UserDTO getUserById(Long id) {
+        return this.userProxy.findById(id).getBody();
+    }
+
 
 }
